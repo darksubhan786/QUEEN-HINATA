@@ -1,0 +1,21 @@
+{
+  "name": "queen-hinata-whatsapp-bot",
+  "version": "1.0.0",
+  "description": "WhatsApp Bot Based On Cyber-X",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@adiwajshing/baileys": "github:darkalphaxteam/baileys",
+    "pino": "^7.0.5",
+    "qrcode-terminal": "^0.12.0",
+    "sequelize": "^6.19.0",
+    "sqlite3": "^5.0.8",
+    "pg": "^8.7.3",
+    "dotenv": "^16.0.0",
+    "axios": "^0.27.2"
+  },
+  "author": "darksubhan786",
+  "license": "Apache-2.0"
+}
