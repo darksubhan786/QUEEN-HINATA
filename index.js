@@ -3,6 +3,7 @@ const pino = require('pino');
 const { Boom } = require('@hapi/boom');
 const fs = require('fs');
 const config = require('./config');
+require('./server');
 
 async function startBot() {
     console.log("QUEEN HINATA IS STARTING...");
@@ -21,10 +22,7 @@ async function startBot() {
         const { connection, lastDisconnect } = update;
         if (connection === 'close') {
             const shouldReconnect = (lastDisconnect.error instanceof Boom) ? lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut : true;
-            console.log('Connection closed due to ', lastDisconnect.error, ', reconnecting ', shouldReconnect);
-            if (shouldReconnect) {
-                startBot();
-            }
+            if (shouldReconnect) startBot();
         } else if (connection === 'open') {
             console.log('QUEEN HINATA CONNECTED SUCCESSFULLY!');
         }
@@ -33,15 +31,11 @@ async function startBot() {
     sock.ev.on('messages.upsert', async m => {
         const msg = m.messages[0];
         if (!msg.message) return;
-        
         const text = msg.message.conversation || msg.message.extendedTextMessage?.text;
         const from = msg.key.remoteJid;
 
         if (text === config.PREFIX + 'alive') {
-            await sock.sendMessage(from, { 
-                image: { url: config.ALIVE_IMG }, 
-                caption: config.ALIVE_MSG 
-            }, { quoted: msg });
+            await sock.sendMessage(from, { image: { url: config.ALIVE_IMG }, caption: config.ALIVE_MSG }, { quoted: msg });
         }
     });
 }
